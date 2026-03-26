@@ -13,9 +13,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area
 } from "recharts"
 
-// ─────────────────────────────────────────────
-// MOCK DATA
-// ─────────────────────────────────────────────
+
 const CLIENTS = [
   { id: 1, name: "Sportiva Milano", contact: "Luca Ferrari", email: "luca@sportivami.it", phone: "+39 02 1234567", stage: "Cliente attivo", budget: 4500, tags: ["ecommerce","social"], score: 88 },
   { id: 2, name: "Wellness360", contact: "Anna Ricci", email: "anna@wellness360.it", phone: "+39 03 9876543", stage: "Proposta inviata", budget: 2800, tags: ["lead gen","SEO"], score: 72 },
