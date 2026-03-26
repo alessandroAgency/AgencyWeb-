@@ -201,7 +201,7 @@ const CRM = () => {
       {showForm && (
         <Card className="mb-6 border-blue-200">
           <h3 className="font-semibold text-gray-700 mb-4">{selected ? "Modifica Cliente" : "Nuovo Cliente"}</h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[["Azienda", "name"], ["Referente", "contact"], ["Email", "email"], ["Telefono", "phone"]].map(([label, key]) => (
               <div key={key}>
                 <label className="text-xs text-gray-500 mb-1 block">{label}</label>
@@ -229,13 +229,13 @@ const CRM = () => {
         </Card>
       )}
 
-      <div className="flex gap-3 mb-4">
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <div className="relative flex-1">
           <Search size={15} className="absolute left-3 top-2.5 text-gray-400" />
           <input placeholder="Cerca cliente o referente…" className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-sm"
             value={search} onChange={e => setSearch(e.target.value)} />
         </div>
-        <div className="flex gap-1">
+        <div className="flex gap-1 flex-wrap">
           {stages.map(s => (
             <button key={s} onClick={() => setFilterStage(s)}
               className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${filter === s ? "bg-blue-600 text-white" : "border border-gray-200 text-gray-600 hover:bg-gray-50"}`}>
@@ -246,7 +246,8 @@ const CRM = () => {
       </div>
 
       <Card>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[600px]">
           <thead>
             <tr className="text-left border-b border-gray-100">
               {["Azienda", "Referente", "Fase", "Budget/mese", "Score", "Tag", ""].map(h => (
@@ -284,6 +285,7 @@ const CRM = () => {
             ))}
           </tbody>
         </table>
+        </div>
       </Card>
     </div>
   )
@@ -350,7 +352,7 @@ const ClientPortal = () => {
                 </div>
                 <span className="text-sm font-medium text-gray-600">{p.progress}%</span>
               </div>
-              <div className="grid grid-cols-2 gap-2 mt-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
                 {p.tasks.map(t => (
                   <div key={t.id} className="flex items-center gap-2 text-sm">
                     {t.done ? <CheckCircle2 size={14} className="text-green-500" /> : <Circle size={14} className="text-gray-300" />}
@@ -457,13 +459,13 @@ const ProjectTracker = () => {
   return (
     <div>
       <SectionHeader title="Project Tracker" subtitle="Gestione campagne e task" />
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <StatCard label="Progetti totali" value={projects.length} icon={FolderKanban} color="blue" />
         <StatCard label="In corso" value={projects.filter(p => p.status === "In corso").length} icon={Clock} color="purple" />
         <StatCard label="Completati" value={projects.filter(p => p.status === "Completato").length} icon={CheckCircle2} color="green" />
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {columns.map(col => (
           <div key={col}>
             <div className="flex items-center gap-2 mb-3">
@@ -522,14 +524,14 @@ const KPIDashboard = () => {
   return (
     <div>
       <SectionHeader title="Dashboard KPI" subtitle="Performance aggregata — ultimi 6 mesi" />
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <StatCard label="Impressioni" value={`${(last.impression / 1000).toFixed(0)}k`} icon={Eye} trend={pct(last.impression, prev.impression)} color="blue" />
         <StatCard label="Click totali" value={`${(last.click / 1000).toFixed(1)}k`} icon={Target} trend={pct(last.click, prev.click)} color="purple" />
         <StatCard label="Lead generati" value={last.lead} icon={Users} trend={pct(last.lead, prev.lead)} color="green" />
         <StatCard label="Conversioni" value={last.conversioni} icon={CheckCircle2} trend={pct(last.conversioni, prev.conversioni)} color="amber" />
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <Card>
           <h3 className="font-semibold text-gray-700 mb-4">Impressioni & Click</h3>
           <ResponsiveContainer width="100%" height={200}>
@@ -586,7 +588,7 @@ const ReportGenerator = () => {
   return (
     <div>
       <SectionHeader title="Report Generator" subtitle="Crea report automatici brandizzati da inviare ai clienti" />
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <Card>
             <h3 className="font-semibold text-gray-700 mb-4">Configurazione Report</h3>
@@ -648,7 +650,7 @@ const ReportGenerator = () => {
                 {form.include.kpi && (
                   <div>
                     <p className="font-semibold text-gray-700 mb-2 flex items-center gap-1"><BarChart3 size={14} /> KPI del mese</p>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                       {[["Impressioni", "245.000"], ["Click", "15.100"], ["Lead", "590"], ["Conversioni", "92"]].map(([k, v]) => (
                         <div key={k} className="bg-gray-50 rounded-lg p-2"><p className="text-xs text-gray-400">{k}</p><p className="font-bold text-gray-800">{v}</p></div>
                       ))}
@@ -676,7 +678,7 @@ const ReportGenerator = () => {
 const SocialAnalytics = () => (
   <div>
     <SectionHeader title="Social Media Analytics" subtitle="Performance comparata tra canali" />
-    <div className="grid grid-cols-5 gap-3 mb-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-6">
       {SOCIAL_DATA.map(s => (
         <Card key={s.channel} className="text-center">
           <div className="w-8 h-8 rounded-full mx-auto mb-2" style={{ backgroundColor: s.color + "20" }}>
@@ -692,7 +694,7 @@ const SocialAnalytics = () => (
         </Card>
       ))}
     </div>
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <Card>
         <h3 className="font-semibold text-gray-700 mb-4">Lead per canale</h3>
         <ResponsiveContainer width="100%" height={220}>
@@ -762,7 +764,7 @@ const CopyGenerator = () => {
   return (
     <div>
       <SectionHeader title="Generatore di Copy AI" subtitle="Testi per ads, email e social basati sul brief cliente" />
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <h3 className="font-semibold text-gray-700 mb-4">Brief</h3>
           <div className="space-y-3">
@@ -912,7 +914,7 @@ const ABTestManager = () => {
 
       {showForm && (
         <Card className="mb-4 border-blue-200">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="col-span-2"><label className="text-xs text-gray-500 mb-1 block">Nome test</label><input className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} /></div>
             <div><label className="text-xs text-gray-500 mb-1 block">Variante A</label><input className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" value={form.variantA} onChange={e => setForm(f => ({ ...f, variantA: e.target.value }))} /></div>
             <div><label className="text-xs text-gray-500 mb-1 block">Variante B</label><input className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" value={form.variantB} onChange={e => setForm(f => ({ ...f, variantB: e.target.value }))} /></div>
@@ -937,7 +939,7 @@ const ABTestManager = () => {
                 </div>
                 <Badge text={t.status} color={t.status.includes("Vincitore") ? "green" : "blue"} />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[["A", t.variantA, t.metricA], ["B", t.variantB, t.metricB]].map(([label, text, metric]) => {
                   const isWinner = !running && label === winner
                   return (
@@ -991,7 +993,7 @@ const EmailBuilder = () => {
       </div>
 
       {tab === "editor" && (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="space-y-3">
             <div><label className="text-xs text-gray-500 mb-1 block">Oggetto email</label>
               <input className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" value={subject} onChange={e => setSubject(e.target.value)} /></div>
@@ -1061,7 +1063,7 @@ const EmailBuilder = () => {
       )}
 
       {tab === "stats" && (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[["Inviati", "1.240", "blue"], ["Aperti", "31.4%", "green"], ["Clic", "8.7%", "purple"], ["Disiscritti", "0.3%", "red"]].map(([l, v, c]) => (
             <StatCard key={l} label={l} value={v} icon={Mail} color={c} />
           ))}
@@ -1079,7 +1081,7 @@ const LeadScoring = () => {
   return (
     <div>
       <SectionHeader title="Lead Scoring" subtitle="Punteggi e comportamento dei contatti" />
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <StatCard label="Lead caldi" value={LEADS.filter(l=>l.stage==="Caldo").length} sub="score > 80" icon={Star} color="amber" />
         <StatCard label="Lead tiepidi" value={LEADS.filter(l=>l.stage==="Tiepido").length} sub="score 50–80" icon={TrendingUp} color="blue" />
         <StatCard label="Lead freddi" value={LEADS.filter(l=>l.stage==="Freddo").length} sub="score < 50" icon={TrendingDown} color="purple" />
@@ -1150,7 +1152,7 @@ const ChatbotBuilder = () => {
           <Eye size={15} /> {preview ? "Modifica" : "Anteprima"}
         </button>
       } />
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <h3 className="font-semibold text-gray-700 mb-3 text-sm">Flusso conversazione</h3>
           <div className="space-y-2">
@@ -1239,7 +1241,7 @@ const ROICalculator = () => {
   return (
     <div>
       <SectionHeader title="ROI Calculator" subtitle="Calcola il ritorno sull'investimento pubblicitario" />
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <h3 className="font-semibold text-gray-700 mb-4">Parametri campagna</h3>
           <div className="space-y-4">
@@ -1262,7 +1264,7 @@ const ROICalculator = () => {
           </div>
         </Card>
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Card className="text-center"><p className="text-xs text-gray-400 mb-1">Click stimati</p><p className="text-2xl font-bold text-gray-800">{clicks.toLocaleString()}</p></Card>
             <Card className="text-center"><p className="text-xs text-gray-400 mb-1">Conversioni</p><p className="text-2xl font-bold text-blue-600">{conversioni.toLocaleString()}</p></Card>
             <Card className="text-center"><p className="text-xs text-gray-400 mb-1">Revenue stimata</p><p className="text-2xl font-bold text-green-600">€{revenue.toLocaleString()}</p></Card>
@@ -1336,8 +1338,8 @@ const SEOAudit = () => {
       </Card>
 
       {result && (
-        <div className="grid grid-cols-3 gap-5">
-          <div className="col-span-2 space-y-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="md:col-span-2 space-y-2">
             {result.checks.map((c, i) => (
               <div key={i} className={`flex items-start gap-3 p-3 rounded-xl ${statusBg[c.status]}`}>
                 <div className="mt-0.5">{statusIcon[c.status]}</div>
@@ -1418,8 +1420,8 @@ const QuoteBuilder = () => {
   return (
     <div>
       <SectionHeader title="Preventivatore Online" subtitle="Configura un pacchetto di servizi e genera il preventivo" />
-      <div className="grid grid-cols-3 gap-5">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="md:col-span-2">
           {categories.map(cat => (
             <div key={cat} className="mb-5">
               <h3 className="font-semibold text-gray-600 text-sm uppercase tracking-wide mb-2">{cat}</h3>
@@ -1446,7 +1448,7 @@ const QuoteBuilder = () => {
         <div className="space-y-4">
           <Card>
             <h3 className="font-semibold text-gray-700 mb-3">Riepilogo preventivo</h3>
-            <div className="space-y-2 mb-4">
+            <div className="space-y-2 mb-4 max-h-48 overflow-y-auto">
               {selected.length === 0 ? <p className="text-xs text-gray-400 text-center py-4">Seleziona i servizi</p> :
                 services.filter(s => selected.includes(s.id)).map(s => (
                   <div key={s.id} className="flex justify-between text-sm">
@@ -1525,16 +1527,21 @@ const NAV = [
 
 const GROUPS = ["Clienti & Progetti", "Analytics", "Contenuti", "Automazione", "Strumenti"]
 
-const Sidebar = ({ active, setActive }) => {
+const Sidebar = ({ active, setActive, mobileOpen, setMobileOpen }) => {
   const [collapsed, setCollapsed] = useState({})
   const toggle = (g) => setCollapsed(c => ({ ...c, [g]: !c[g] }))
 
-  return (
-    <div className="w-56 bg-gray-900 text-white flex flex-col h-screen flex-shrink-0">
+  const handleNav = (id) => { setActive(id); setMobileOpen(false) }
+
+  const SidebarContent = () => (
+    <div className="bg-gray-900 text-white flex flex-col h-full">
       <div className="p-4 border-b border-gray-800">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-blue-500 rounded-lg flex items-center justify-center"><Zap size={14} className="text-white" /></div>
-          <div><p className="font-bold text-sm">AgencyOS</p><p className="text-xs text-gray-400">Marketing Platform</p></div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-blue-500 rounded-lg flex items-center justify-center"><Zap size={14} className="text-white" /></div>
+            <div><p className="font-bold text-sm">AgencyOS</p><p className="text-xs text-gray-400">Marketing Platform</p></div>
+          </div>
+          <button onClick={() => setMobileOpen(false)} className="md:hidden text-gray-400 hover:text-white p-1"><X size={18} /></button>
         </div>
       </div>
       <nav className="flex-1 overflow-y-auto py-3 px-2">
@@ -1545,7 +1552,7 @@ const Sidebar = ({ active, setActive }) => {
               {collapsed[group] ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
             </button>
             {!collapsed[group] && NAV.filter(n => n.group === group).map(item => (
-              <button key={item.id} onClick={() => setActive(item.id)}
+              <button key={item.id} onClick={() => handleNav(item.id)}
                 className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm mb-0.5 transition-colors ${active === item.id ? "bg-blue-600 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"}`}>
                 <item.icon size={15} />
                 {item.label}
@@ -1563,6 +1570,24 @@ const Sidebar = ({ active, setActive }) => {
       </div>
     </div>
   )
+
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <div className="hidden md:flex w-56 flex-shrink-0 h-screen flex-col">
+        <SidebarContent />
+      </div>
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div className="md:hidden fixed inset-0 z-40 flex">
+          <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setMobileOpen(false)} />
+          <div className="relative w-64 h-full z-50 flex flex-col">
+            <SidebarContent />
+          </div>
+        </div>
+      )}
+    </>
+  )
 }
 
 // ─────────────────────────────────────────────
@@ -1578,16 +1603,31 @@ const VIEWS = {
 
 export default function App() {
   const [active, setActive] = useState("crm")
+  const [mobileOpen, setMobileOpen] = useState(false)
   const View = VIEWS[active] || CRM
+  const currentNav = NAV.find(n => n.id === active)
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans overflow-hidden">
-      <Sidebar active={active} setActive={setActive} />
-      <main className="flex-1 overflow-y-auto">
-        <div className="max-w-6xl mx-auto p-7">
-          <View />
+      <Sidebar active={active} setActive={setActive} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Mobile top bar */}
+        <div className="md:hidden flex items-center gap-3 px-4 py-3 bg-white border-b border-gray-200 flex-shrink-0">
+          <button onClick={() => setMobileOpen(true)} className="p-1.5 rounded-lg text-gray-600 hover:bg-gray-100">
+            <Menu size={20} />
+          </button>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-blue-500 rounded-md flex items-center justify-center"><Zap size={12} className="text-white" /></div>
+            <span className="font-bold text-sm text-gray-800">AgencyOS</span>
+          </div>
+          {currentNav && <span className="ml-auto text-sm text-gray-500 font-medium">{currentNav.label}</span>}
         </div>
-      </main>
+        <main className="flex-1 overflow-y-auto">
+          <div className="max-w-6xl mx-auto p-3 md:p-7">
+            <View />
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
